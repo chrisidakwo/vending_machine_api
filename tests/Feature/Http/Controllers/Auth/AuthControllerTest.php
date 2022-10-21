@@ -52,7 +52,7 @@ class AuthControllerTest extends IntegrationTestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->apiAs($user)->postJson(route('auth.logout'));
+        $response = $this->actingAs($user)->postJson(route('auth.logout'));
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
@@ -61,7 +61,7 @@ class AuthControllerTest extends IntegrationTestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->apiAs($user)->postJson(route('auth.refresh'));
+        $response = $this->actingAs($user)->postJson(route('auth.refresh'));
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([

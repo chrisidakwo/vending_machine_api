@@ -2,28 +2,32 @@
 
 namespace Tests;
 
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use JWTAuth;
 
 class IntegrationTestCase extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, InteractsWithAuthentication, InteractsWithDatabase;
 
     protected array $headers;
 
     /**
-     * @param $user
+     * @param UserContract $user
+     * @param string $guard
      *
      * @return $this
      */
-    protected function apiAs($user): static
+    public function actingAs(UserContract $user, $guard = 'api'): static
     {
         $this->headers = [
             'Authorization' => 'Bearer '. JWTAuth::fromUser($user),
         ];
 
-        return $this;
+        return parent::actingAs($user, $guard);
     }
 
     /**
