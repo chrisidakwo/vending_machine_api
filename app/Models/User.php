@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
@@ -49,5 +50,47 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isASeller(): bool
+    {
+        return $this->role === self::ROLE_SELLER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isABuyer(): bool
+    {
+        return $this->role === self::ROLE_BUYER;
+    }
+
+    /**
+     * @param Product $product
+     *
+     * @return bool
+     */
+    public function ownsProduct(Product $product): bool
+    {
+        return $this->getKey() === $product->seller_id;
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'seller_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(ProductPurchase::class, 'user_id');
     }
 }
