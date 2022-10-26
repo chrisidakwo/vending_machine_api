@@ -42,7 +42,9 @@ class ProductPurchaseService
         ])->save();
 
         // Decrease product available quantity
-        $product->newQuery()->decrement('amount_available', $quantity);
+        $product->newQuery()->where([
+            'products.id' => $product->id,
+        ])->decrement('amount_available', $quantity);
 
         return $productPurchase;
     }
