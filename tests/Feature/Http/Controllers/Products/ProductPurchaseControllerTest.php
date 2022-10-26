@@ -47,8 +47,9 @@ class ProductPurchaseControllerTest extends IntegrationTestCase
         self::assertEquals(60, $buyer->refresh()->deposit);
 
         $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonPath('purchases.0.amountAvailable', 18);
-        $response->assertJsonPath('purchases.0.cost', 20);
+        $response->assertJsonPath('purchases.0.purchaseQuantity', 2);
+        $response->assertJsonPath('purchases.0.purchaseCost', 20);
         $response->assertJsonPath('totalPurchaseAmount', 40);
+        $response->assertJsonPath('remainingDeposit', 60);
     }
 }

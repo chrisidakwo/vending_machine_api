@@ -7,9 +7,11 @@ use App\Http\Requests\Products\DeleteProductRequest;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
 use App\Http\Resources\Products\ProductResource;
+use App\Http\Resources\Products\ProductResourceCollection;
 use App\Models\Product;
 use App\Services\Products\ProductService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -25,6 +27,20 @@ class ProductController extends Controller
         $this->middleware('auth:api');
 
         $this->productService = $productService;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $products = $request->user()->isASeller()
+            ? $request->user()->products()->orderByDesc('created_at')->get()
+            : Product::query()->latest()->get();
+
+        return response()->json(ProductResourceCollection::make($products));
     }
 
     /**

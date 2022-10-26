@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\ProductPurchaseRequest;
-use App\Http\Resources\Products\ProductResourceCollection;
-use App\Models\Product;
 use App\Services\Products\ProductPurchaseService;
 use Illuminate\Http\JsonResponse;
 
@@ -23,6 +21,11 @@ class ProductPurchaseController extends Controller
         $this->productPurchaseService = $productPurchaseService;
     }
 
+    /**
+     * @param ProductPurchaseRequest $request
+     *
+     * @return JsonResponse
+     */
     public function purchase(ProductPurchaseRequest $request): JsonResponse
     {
         $this->productPurchaseService->purchase(
@@ -34,8 +37,9 @@ class ProductPurchaseController extends Controller
         $purchaseHistory = $this->productPurchaseService->purchaseHistory($request->user());
 
         return response()->json([
-            'purchases' => ProductResourceCollection::make($purchaseHistory['products']),
-            'totalPurchaseAmount' => $purchaseHistory['totalSpent'],
+            'purchases' => $purchaseHistory['products'],
+            'totalPurchaseAmount' => (int) $purchaseHistory['totalSpent'],
+            'remainingDeposit' => $request->user()->refresh()->deposit,
         ]);
     }
 }

@@ -25,8 +25,8 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'users'], function () {
-        Route::get('', [UserController::class, 'auth'])->name('users.view');
         Route::post('', [UserController::class, 'store'])->name('users.store');
+        Route::get('/auth', [UserController::class, 'auth'])->name('users.view');
         Route::get('/{user}', [UserController::class, 'view'])->name('users.update');
         Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
         Route::delete('/{user}', [UserController::class, 'delete'])->name('users.delete');
@@ -34,6 +34,7 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::group(['prefix' => 'products'], function () {
         Route::post('', [ProductController::class, 'store'])->name('products.store');
+        Route::get('', [ProductController::class, 'index'])->name('products.index');
         Route::get('{product}', [ProductController::class, 'view'])->name('products.view');
         Route::put('{product}', [ProductController::class, 'update'])->name('products.update');
         Route::delete('{product}', [ProductController::class, 'delete'])->name('products.delete');

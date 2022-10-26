@@ -30,17 +30,6 @@ class ProductControllerTest extends IntegrationTestCase
         $response = $this->actingAs($user)->postJson(route('products.store'), [
             'product_name' => 'Test Product',
             'quantity_available' => 10,
-            'cost' => 25,
-        ]);
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrors([
-            'cost' => [trans('validation.in', [ 'attribute' => 'cost' ])]
-        ]);
-
-        $response = $this->actingAs($user)->postJson(route('products.store'), [
-            'product_name' => 'Test Product',
-            'quantity_available' => 10,
             'cost' => 20,
         ]);
 

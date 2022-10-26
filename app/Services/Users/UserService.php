@@ -55,7 +55,9 @@ class UserService
      */
     public function deposit(User $user, int $amount): User
     {
-        $user->newQuery()->increment('deposit', $amount);
+        $user->fill([
+            'deposit' => ((int) $user->deposit) + $amount
+        ])->save();
 
         return $user->refresh();
     }
@@ -67,10 +69,9 @@ class UserService
      */
     public function resetDeposit(User $user): User
     {
-        $user = $user->fill([ 'deposit' => 0 ]);
-        $user->save();
+        $user->fill([ 'deposit' => 0 ])->save();
 
-        return $user;
+        return $user->refresh();
     }
 
     /**

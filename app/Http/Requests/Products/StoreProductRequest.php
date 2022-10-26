@@ -17,7 +17,7 @@ class StoreProductRequest extends FormRequest
         return $this->user()->isASeller();
     }
 
-    /**
+    /*
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
@@ -26,8 +26,8 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'product_name' => ['required', 'string', 'min:6', 'unique:products'],
-            'cost' => ['required', 'integer', Rule::in(config('vendingmachine.products.price_ranges'))],
-            'quantity_available' => ['required', 'integer'],
+            'cost' => ['required', 'integer', 'min:5'],
+            'quantity_available' => ['required', 'integer', 'min:1'],
         ];
     }
 }
