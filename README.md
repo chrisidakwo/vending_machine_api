@@ -29,3 +29,4 @@
 #### NOTE
 The React frontend project runs on localhost port 3000 and is
 
+The Frontend project is available at: https://github.com/chrisidakwo/vending_machine_web
