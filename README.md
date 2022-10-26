@@ -1,7 +1,9 @@
 ## Vending Machine
-
+Built with PHP 8.1
 
 ### How To Use
+- Install composer dependencies `composer install`
+
 - Copy `.env.example` into a new file `.env`. You can use this command: `cp .env.example .env`
 
 - Generate the application key using: `php artisan key:generate`
@@ -9,6 +11,8 @@
 - Generate JWT secret using: `php artisan jwt:secret`
 
 - The application uses a SQLite file database for test, hence you will need to manually create the database file using this command: `touch database/database.sqlite`
+
+- You can run available tests using `php artisan test`
 
 - Run database migrations and seeds using `php artisan migrate --seed`
   - Two `buyer` accounts will be generated with associated products
