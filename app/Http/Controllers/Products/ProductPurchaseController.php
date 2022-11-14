@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\ProductPurchaseRequest;
 use App\Services\Products\ProductPurchaseService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class ProductPurchaseController extends Controller
 {
@@ -25,6 +26,7 @@ class ProductPurchaseController extends Controller
      * @param ProductPurchaseRequest $request
      *
      * @return JsonResponse
+     * @throws ValidationException
      */
     public function purchase(ProductPurchaseRequest $request): JsonResponse
     {
@@ -40,6 +42,7 @@ class ProductPurchaseController extends Controller
             'purchases' => $purchaseHistory['products'],
             'totalPurchaseAmount' => (int) $purchaseHistory['totalSpent'],
             'remainingDeposit' => $request->user()->refresh()->deposit,
+            'change' => $purchaseHistory['change']
         ]);
     }
 }

@@ -50,6 +50,10 @@ class ProductPurchaseControllerTest extends IntegrationTestCase
         $response->assertJsonPath('purchases.0.purchaseQuantity', 2);
         $response->assertJsonPath('purchases.0.purchaseCost', 20);
         $response->assertJsonPath('totalPurchaseAmount', 40);
+        $response->assertJsonPath('change', [
+            '50' => 1,
+            '10' => 1
+        ]);
         $response->assertJsonPath('remainingDeposit', 60);
     }
 }

@@ -62,6 +62,10 @@ class ProductPurchaseService
         // 2. Total money spent on purchases
         $totalSum = ProductPurchase::query()->sum(DB::raw('unit_cost * quantity'));
 
+        $remainingBalance = $user->refresh()->deposit;
+        $change = self::countAvailableCounts($remainingBalance);
+
+
         return [
             'products' => $products->map(function ($item) {
                 return [
@@ -71,7 +75,26 @@ class ProductPurchaseService
                 ];
             }),
             'totalSpent' => $totalSum,
+            'change' => $change,
         ];
+    }
+
+    /**
+     * @param int $remainingBalance
+     *
+     * @return array
+     */
+    private static function countAvailableCounts(int $remainingBalance): array
+    {
+        $coins = [100, 50, 20, 10, 5];
+        $coinsOccurrences = [];
+
+        foreach ($coins as $coin) {
+            $coinsOccurrences[$coin] = floor($remainingBalance / $coin);
+            $remainingBalance -= $coinsOccurrences[$coin] * $coin;
+        }
+
+        return array_filter($coinsOccurrences);
     }
 
     /**
