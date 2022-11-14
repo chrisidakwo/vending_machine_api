@@ -12,7 +12,7 @@ Built with PHP 8.1
 
 - The application uses a SQLite file database for test, hence you will need to manually create the database file using this command: `touch database/database.sqlite`
 
-- You can run available tests using `php artisan test`
+- You can run all tests using `php artisan test`
 
 - Run database migrations and seeds using `php artisan migrate --seed`
   - Two `buyer` accounts will be generated with associated products
@@ -31,6 +31,4 @@ Built with PHP 8.1
 
 
 #### NOTE
-The React frontend project runs on localhost port 3000 and is
-
-The Frontend project is available at: https://github.com/chrisidakwo/vending_machine_web
+The React frontend project runs on localhost port 3000 and is available at: https://github.com/chrisidakwo/vending_machine_web

@@ -63,7 +63,7 @@ class ProductPurchaseService
         $totalSum = ProductPurchase::query()->sum(DB::raw('unit_cost * quantity'));
 
         $remainingBalance = $user->refresh()->deposit;
-        $change = self::countAvailableCounts($remainingBalance);
+        $change = self::countAvailableCoins($remainingBalance);
 
 
         return [
@@ -84,7 +84,7 @@ class ProductPurchaseService
      *
      * @return array
      */
-    private static function countAvailableCounts(int $remainingBalance): array
+    private static function countAvailableCoins(int $remainingBalance): array
     {
         $coins = [100, 50, 20, 10, 5];
         $coinsOccurrences = [];
